@@ -3,16 +3,6 @@ var express = require("express");
 var fs = require('fs');
 var path = require('path');
 
-//laat config bestand
-var config = JSON.parse(fs.readFileSync("config.json"));
-
-//laat consoleColor
-var consoleColor = require('./ConsoleColor.js');
-var installer = require('./Installer.js');
-
-//laat app
-var app = express();
-
 //kijk of temp bestanden bestaat
 fs.exists('./temp/installLocatie.txt',function(exists){
     if(!exists){
@@ -22,8 +12,30 @@ fs.exists('./temp/installLocatie.txt',function(exists){
 
     	//roep file maker methoden aan
         installer.folderCheck();
+    } else {
+
+    	consoleColor.log("installLocatie.txt is gevonden");
     }
 });
+
+//laat config bestand
+var config = JSON.parse(fs.readFileSync("config.json"));
+
+//laat consoleColor
+var consoleColor = require('./ConsoleColor.js');
+
+//laat installer
+var installer = require('./Installer.js');
+
+//laat routers
+var router = require('./router/Index.js');
+
+//laat app
+var app = express();
+
+//app.use
+app.use('/', router);
+app.use('/post', require(__dirname + '/router/PostRouter.js'));
 
 //website egine
 app.set('view engine', 'ejs');
