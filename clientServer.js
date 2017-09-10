@@ -27,8 +27,41 @@ var consoleColor = require('./ConsoleColor.js');
 //laat installer
 var installer = require('./Installer.js');
 
+//laat core modules
+var reqeustData = require('./core/RequestData.js');
+var versieCheck = require('./core/VersieCheck.js');
+
 //laat routers
 var router = require('./router/Index.js');
+var privateGetterRouter = require('./router/privateRouters.js');
+
+//kijk welke versie van de db data is er op de computer
+fs.exists('./temp/verieCheck.txt', function(exists){
+	if(!exists){
+
+		//terminal waarschuwing bericht
+		consoleColor.warn("verieCheck.txt bestaat niet");
+
+		//start versie check op met de restrectie dat het bestand niet word geladen
+		
+
+
+	} else {
+		//terminal bericht
+		consoleColor.log("VersieCheck word gemaakt");
+
+
+
+
+
+		
+	}
+});
+
+
+
+
+
 
 //laat app
 var app = express();
@@ -36,6 +69,7 @@ var app = express();
 //app.use
 app.use('/', router);
 app.use('/post', require(__dirname + '/router/PostRouter.js'));
+//app.use('/api', require(__dirname + 'router/apiIndex.js'));
 
 //website egine
 app.set('view engine', 'ejs');
