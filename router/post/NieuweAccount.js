@@ -28,27 +28,31 @@ Router.post('/', function(req,res){
 	var password = postData.password;
 	var passwordAgain = postData.passwordAgain;
 
-	// Encrypt 
-	var encryptData = CryptoJS.AES.encrypt(password, password);
+	if(password == passwordAgain){
+		// Encrypt 
+		var encryptData = CryptoJS.AES.encrypt(password, password);
 
-	//sla het wachtwoord op
-	fs.writeFile(bestandLocatie + "/temp/wachtwoordBestand.txt", encryptData,function(err){
-		if(err){
+		//sla het wachtwoord op
+		fs.writeFile(bestandLocatie + "/temp/wachtwoordBestand.txt", encryptData,function(err){
+			if(err){
 
-			//terminal bericht
-			consoleColor.error("Er is een probleem op wachtwoord bestand op te slaan");
+				//terminal bericht
+				consoleColor.error("Er is een probleem op wachtwoord bestand op te slaan");
 
-			//stuur door naar de error pagina
-			res.redirect('/error/postNieuweAccount');
-		} else {
+				//stuur door naar de error pagina
+				res.redirect('/error/postNieuweAccount');
+			} else {
 
-			//terminal bericht
-			consoleColor.log("Wachtwoord bestand is aangemaakt");
+				//terminal bericht
+				consoleColor.log("Wachtwoord bestand is aangemaakt");
 
-			//naar inlog scherm
-			res.redirect('/');
-		}
-	});
+				//naar inlog scherm
+				res.redirect('/');
+			}
+		});
+	} else {
+		consoleColor.error("Password en passwordAgain is niet het zelfde");
+	}
 });
 
 

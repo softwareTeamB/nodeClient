@@ -23,7 +23,20 @@ Router.post('/', function(req,res){
 	//data die er binnen komt
 	var postData = req.body;
 
+	//krijg wachtwoord
+	var password = postData.password;
 
+	//decrypt
+	var bytes  = CryptoJS.AES.decrypt(password.toString(), password);
+	var plaintext = bytes.toString(CryptoJS.enc.Utf8);
+
+	if(plaintext == password){
+
+		//private router
+		res.redirect('/private/');
+	} else {
+		consoleColor.error("wachtwoord klopt niet");
+	}
 
 	console.log(req.body);
 })
